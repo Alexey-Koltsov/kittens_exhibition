@@ -2,10 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from pytils.translit import slugify
 
-from core.constants import (EMAIL_LENGTH_MAX, EMAIL_LENGTH_MIN,
-                            MAX_LENGTH_NAME, MIN_LENGTH_NAME,
-                            USERNAME_LENGTH)
-from core.validators import name_validator, username_validator
+from core.constants import MAX_LENGTH_NAME
+from core.validators import name_validator
 
 User = get_user_model()
 
@@ -41,7 +39,7 @@ class Kitten(models.Model):
         verbose_name="Слаг",
     )
     color = models.CharField(max_length=16)
-    birth_data = models.DateField()
+    birth_date = models.DateField()
     owner = models.OneToOneField(
         User,
         on_delete=models.CASCADE
@@ -54,6 +52,11 @@ class Kitten(models.Model):
     image = models.ImageField(
         upload_to="images/",
     )
+
+    class Meta:
+        verbose_name = "Котёнок"
+        verbose_name_plural = "Котята"
+        ordering = ("name",)
 
     def __str__(self):
         return self.name

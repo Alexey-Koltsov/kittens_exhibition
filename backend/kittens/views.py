@@ -19,17 +19,17 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-from kittens.filters import BreedFilter
-from kittens.models import Breed
-from users.permissions import IsOwnerOrReadOnlyOrAdmin
-from kittens.schemas import BREED_DJOSER_SCHEMA
-from kittens.serializers import BreedSerializer  # KittenSerializer
+from kittens.filters import BreedFilter, KittenFilter
+from kittens.models import Breed, Kitten
+from kittens.permissions import IsKittenOwnerOrReadOnlyOrAdmin
+from kittens.schemas import BREED_SCHEMA, KITTEN_SCHEMA, kitten_description_schema
+from kittens.serializers import BreedSerializer, KittenSerializer
 
 
 User = get_user_model()
 
 
-@extend_schema_view(**BREED_DJOSER_SCHEMA)
+@extend_schema_view(**BREED_SCHEMA)
 class BreedViewSet(viewsets.ModelViewSet):
     """
      Кастомный ViewSet для работы с городами.
@@ -70,13 +70,62 @@ class BreedViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         """
-        Возвращает список названий всех городов.
+        Возвращает список названий всех пород.
         """
 
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         """
-        Возвращает название конкретного города.
+        Возвращает название конкретной породы.
         """
         return super().retrieve(request, *args, **kwargs)
+
+
+@extend_schema_view(**KITTEN_SCHEMA)
+class KittenViewSet(viewsets.ModelViewSet):
+    """
+     Кастомный ViewSet для работы с городами.
+     Этот ViewSet предоставляет эндпоинты для получения пород.
+     Attributes:
+     - queryset: Запрос, возвращающий всех пород.
+     - serializer_class: Сериализатор, используемый для получения породы.
+     - lookup_field: Имя поля в URL для поиска объекта (по умолчанию "pk").
+    Methods:
+     - list - Возвращает список всех пород.
+     - retrieve - Возвращает информацию о конкретном котёнке.
+     - create -  Создает нового котёнка.
+     - update - Обновляет информацию о конкретном котёнке.
+     - partial_update - Частично обновляет информацию о конкретном котёнке.
+     - destroy - Удаляет конкретного котёнка.
+    """
+
+    lookup_field = "pk"
+    serializer_class = KittenSerializer
+    permission_classes = [AllowAny,]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = KittenFilter
+    permission_classes = (IsKittenOwnerOrReadOnlyOrAdmin,)
+    parser_classes = (MultiPartParser, JSONParser,)
+    queryset = Kitten.objects.all()
+
+    @extend_schema(
+        **kitten_description_schema,
+        summary="Получаем котёнка текущего пользователя"
+        "(Доступно: авторизованному пользователю).",
+    )
+    @action(
+        methods=['get'],
+        serializer_class=KittenSerializer,
+        permission_classes=[IsAuthenticated],
+        detail=False,
+        url_path='me',
+    )
+    def kitten_profile(self, request):
+        kitten = get_object_or_404(Kitten, owner=self.request.user)
+        serializer = self.get_serializer(kitten)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(owner=user)
