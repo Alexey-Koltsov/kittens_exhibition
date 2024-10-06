@@ -149,6 +149,6 @@ dmypy.json
 media/
 
 # переменные окружения
-.env
+
 
 .git
