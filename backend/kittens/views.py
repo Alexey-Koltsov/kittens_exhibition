@@ -1,28 +1,18 @@
 from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
-from django.views.generic import View
-from djoser.views import UserViewSet
-from djoser import utils
+from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework import status, viewsets, mixins
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser, JSONParser
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
+
 from kittens.filters import BreedFilter, KittenFilter
 from kittens.models import Breed, Kitten
 from kittens.permissions import IsKittenOwnerOrReadOnlyOrAdmin
-from kittens.schemas import BREED_SCHEMA, KITTEN_SCHEMA, kitten_description_schema
+from kittens.schemas import (BREED_SCHEMA, KITTEN_SCHEMA,
+                             kitten_description_schema)
 from kittens.serializers import BreedSerializer, KittenSerializer
 
 

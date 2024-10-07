@@ -1,8 +1,6 @@
 import datetime as dt
 
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 
 from .models import Breed, Kitten
@@ -44,7 +42,8 @@ class KittenSerializer(serializers.ModelSerializer):
     age = serializers.SerializerMethodField()
 
     def get_age(self, obj):
-        months = ((dt.datetime.now().year - obj.birth_date.year) * 12 + (dt.datetime.now().month - obj.birth_date.month))
+        months = ((dt.datetime.now().year - obj.birth_date.year) * 12 +
+                  (dt.datetime.now().month - obj.birth_date.month))
         return months
 
     class Meta:
@@ -59,6 +58,7 @@ class KittenSerializer(serializers.ModelSerializer):
             "owner",
             "breed",
             "image",
+            "description",
         )
         read_only_fields = (
             "id",

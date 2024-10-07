@@ -52,6 +52,9 @@ class Kitten(models.Model):
     image = models.ImageField(
         upload_to="images/",
     )
+    description = models.TextField(
+        verbose_name="Описание",
+    )
 
     class Meta:
         verbose_name = "Котёнок"

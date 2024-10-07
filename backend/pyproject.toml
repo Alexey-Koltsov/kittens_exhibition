@@ -40,7 +40,6 @@ package-mode = false
 line-length = 88
 # Исключения длинных строк
 extend-exclude = [
-    "Ecosystem_Alpha_Django/Ecosystem_Alpha_Django/*.py",
     "**/models.py",
     "**/settings.py",
     "**/migrations/",

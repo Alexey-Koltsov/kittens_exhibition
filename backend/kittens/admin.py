@@ -22,7 +22,7 @@ class BreedAdmin(BaseAdminSettings):
     Attributes:
         - inlines: Встраиваемые таблицы.
         - list_display: Поля для отображения в списке объектов.
-        - list_display_links: Поля, являющиеся ссылками на детальную информацию.
+        - list_display_links: Поля - ссылки на детальную информацию.
         - search_fields: Поля, по которым доступен поиск.
     """
 
@@ -42,7 +42,7 @@ class KittenAdmin(BaseAdminSettings):
     Attributes:
         - inlines: Встраиваемые таблицы.
         - list_display: Поля для отображения в списке объектов.
-        - list_display_links: Поля, являющиеся ссылками на детальную информацию.
+        - list_display_links: Поля - ссылки на детальную информацию.
         - search_fields: Поля, по которым доступен поиск.
     """
 
@@ -55,8 +55,9 @@ class KittenAdmin(BaseAdminSettings):
         "owner",
         "breed",
         "image",
+        "description",
     )
     list_display_links = ("id", "name", "slug", "color",
-                          "birth_date", "owner", "breed",)
+                          "birth_date", "owner", "breed", "description",)
     search_fields = ("id", "name""slug", "color",
                      "birth_date", "owner", "breed",)

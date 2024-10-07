@@ -23,7 +23,7 @@ class UsersAdmin(BaseAdminSettings):
     Attributes:
         - inlines: Встраиваемые таблицы.
         - list_display: Поля для отображения в списке объектов.
-        - list_display_links: Поля, являющиеся ссылками на детальную информацию.
+        - list_display_links: Поля - ссылки на детальную информацию.
         - search_fields: Поля, по которым доступен поиск.
     """
 

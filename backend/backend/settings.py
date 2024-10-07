@@ -9,7 +9,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# sqlite3 или postgresql
+# sqlite3 ??? postgresql
 DB_ENGINE = os.getenv("DB_ENGINE", "sqlite3")
 
 SECRET_KEY = os.getenv("SECRET_KEY",)

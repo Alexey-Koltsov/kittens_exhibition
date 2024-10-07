@@ -16,7 +16,6 @@ Poetry
 
 `git clone git@github.com:Alexey-Koltsov/kittens_exhibition.git`
 `cd kittens_exhibition`
-`cd backend`
 
 ##Установить poetry
 
@@ -28,7 +27,12 @@ Poetry
 
 ##Установить зависимости из файла pyproject.toml
 
+`cd backend`
 `poetry install`
+
+##Активировать виртуальное окружения
+
+`poetry shell`
 
 ##Выполнить миграции
 
